@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const INITIAL_NUMBERS = Array.from({ length: 20 }, (_, i) => i + 1);
+const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
 
 export const NumberShuffler = () => {
   const [availableNumbers, setAvailableNumbers] =
@@ -54,7 +54,7 @@ export const NumberShuffler = () => {
         </div>
         <div className="flex space-x-4">
           <Button onClick={drawNumber} disabled={availableNumbers.length === 0}>
-            Draw Number
+            Start shuffling
           </Button>
           <Button onClick={reset} variant="outline">
             Reset
