@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
-const SHUFFLE_ANIMATION_DURATION = 1000;
+const SHUFFLE_ANIMATION_DURATION = 3500;
 const SHUFFLE_INTERVAL = 150;
 
 export const HackALot = () => {
