@@ -89,11 +89,17 @@ export default {
           "0%": { transform: "scale(0.5)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        "bubble-pop": {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "50%": { opacity: "1" },
+          "100%": { transform: "scale(1.2)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "zoom-in": "zoom-in 0.3s ease-out",
+        "bubble-pop": "bubble-pop 1s ease-out forwards",
       },
     },
   },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,10 +9,18 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Bubble } from "./Bubble";
 
 const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
-const SHUFFLE_ANIMATION_DURATION = 1000; // 1 second
-const SHUFFLE_INTERVAL = 50; // update every 50ms
+const SHUFFLE_ANIMATION_DURATION = 1000;
+const SHUFFLE_INTERVAL = 50;
+const BUBBLE_COUNT = 15;
+
+interface BubbleConfig {
+  id: number;
+  size: number;
+  style: React.CSSProperties;
+}
 
 export const NumberShuffler = () => {
   const [availableNumbers, setAvailableNumbers] =
@@ -21,6 +29,29 @@ export const NumberShuffler = () => {
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [bubbles, setBubbles] = useState<BubbleConfig[]>([]);
+
+  useEffect(() => {
+    if (isShuffling) {
+      const newBubbles = Array.from({ length: BUBBLE_COUNT }).map((_, i) => {
+        const size = Math.random() * 30 + 10;
+        return {
+          id: i,
+          size,
+          style: {
+            width: `${size}px`,
+            height: `${size}px`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * (SHUFFLE_ANIMATION_DURATION / 1000)}s`,
+          },
+        };
+      });
+      setBubbles(newBubbles);
+    } else {
+      setTimeout(() => setBubbles([]), 1000); // Clear bubbles after animation
+    }
+  }, [isShuffling]);
 
   const drawNumber = () => {
     if (availableNumbers.length === 0 || isShuffling) {
@@ -70,11 +101,17 @@ export const NumberShuffler = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
-        <div className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden">
+        <div className="relative w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden">
+          {isShuffling && bubbles.map((bubble) => (
+            <Bubble key={bubble.id} style={bubble.style} />
+          ))}
           <span
-            className={`text-7xl font-bold text-secondary-foreground ${
+            className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
+              isShuffling ? 'opacity-50' : 'opacity-100'
+            } ${
               isRevealed && !isShuffling ? "animate-zoom-in" : ""
             }`}
+            style={{ zIndex: 1 }}
           >
             {currentNumber ?? "?"}
           </span>
