@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 
 const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
 const SHUFFLE_ANIMATION_DURATION = 1000;
-const SHUFFLE_INTERVAL = 50;
+const SHUFFLE_INTERVAL = 150;
 
 export const NumberShuffler = () => {
   const [availableNumbers, setAvailableNumbers] =
@@ -21,6 +21,7 @@ export const NumberShuffler = () => {
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [animationTrigger, setAnimationTrigger] = useState(0);
 
   const drawNumber = () => {
     if (availableNumbers.length === 0 || isShuffling) {
@@ -34,6 +35,7 @@ export const NumberShuffler = () => {
       const randomIndex = Math.floor(Math.random() * availableNumbers.length);
       const randomTempNumber = availableNumbers[randomIndex];
       setCurrentNumber(randomTempNumber);
+      setAnimationTrigger((prev) => prev + 1);
     }, SHUFFLE_INTERVAL);
 
     setTimeout(() => {
@@ -71,14 +73,15 @@ export const NumberShuffler = () => {
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
         <div
-          className={`w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden ${
-            isShuffling ? "animate-time-warp" : ""
-          }`}
+          className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
+          style={{ perspective: "1000px" }}
         >
           <span
+            key={animationTrigger}
             className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
-              isShuffling ? "opacity-50" : "opacity-100"
+              isShuffling ? "animate-flip" : ""
             } ${isRevealed && !isShuffling ? "animate-zoom-in" : ""}`}
+            style={{ transformStyle: "preserve-3d" }}
           >
             {currentNumber ?? "?"}
           </span>
