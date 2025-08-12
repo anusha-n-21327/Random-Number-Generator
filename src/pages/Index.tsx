@@ -1,5 +1,4 @@
 import { NumberShuffler } from "@/components/NumberShuffler";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const Index = () => {
@@ -9,9 +8,6 @@ const Index = () => {
         <ThemeSwitcher />
       </div>
       <NumberShuffler />
-      <div className="absolute bottom-0 w-full">
-        <MadeWithDyad />
-      </div>
     </div>
   );
 };
