@@ -150,33 +150,25 @@
   }
 
   .neon-dusk {
-    --background: 270 15% 10%; /* Deep Indigo */
-    --foreground: 270 10% 95%; /* Lavender White */
-
-    --card: 270 15% 12%; /* Slightly Lighter Indigo */
+    --background: 270 15% 8%;
+    --foreground: 270 10% 95%;
+    --card: 270 15% 10%;
     --card-foreground: 270 10% 95%;
-
-    --popover: 270 15% 10%;
+    --popover: 270 15% 8%;
     --popover-foreground: 270 10% 95%;
-
-    --primary: 330 100% 65%; /* Electric Pink */
-    --primary-foreground: 330 100% 10%; /* Dark Pink for contrast */
-
-    --secondary: 270 80% 70%; /* Luminous Purple */
-    --secondary-foreground: 270 80% 98%; /* Very light purple */
-
-    --muted: 270 15% 20%; /* Muted Indigo */
-    --muted-foreground: 270 10% 65%; /* Greyish Lavender */
-
-    --accent: 270 80% 70%; /* Luminous Purple */
-    --accent-foreground: 270 80% 98%;
-
-    --destructive: 0 84.2% 60.2%; /* Standard Destructive Red */
+    --primary: 330 100% 70%;
+    --primary-foreground: 330 100% 10%;
+    --secondary: 270 90% 70%;
+    --secondary-foreground: 270 90% 98%;
+    --muted: 270 15% 20%;
+    --muted-foreground: 270 10% 65%;
+    --accent: 270 90% 70%;
+    --accent-foreground: 270 90% 98%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 270 15% 25%; /* Indigo Border */
-    --input: 270 15% 25%;
-    --ring: 330 100% 65%; /* Electric Pink for focus */
+    --border: 270 20% 25%;
+    --input: 270 20% 25%;
+    --ring: 330 100% 70%;
   }
 
   .onyx-neon {
@@ -207,6 +199,28 @@
     --border: 240 10% 15%;
     --input: 240 10% 15%;
     --ring: 130 100% 50%;
+  }
+
+  .titanium-draw {
+    --background: 220 10% 15%; /* Dark Grey Metallic */
+    --foreground: 210 20% 90%; /* Light Grey */
+    --card: 220 10% 20%; /* Slightly Lighter Metallic */
+    --card-foreground: 210 20% 90%;
+    --popover: 220 10% 15%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 200 100% 50%; /* Electric Blue */
+    --primary-foreground: 220 10% 10%; /* Dark Grey for contrast */
+    --secondary: 210 15% 30%; /* Medium Grey */
+    --secondary-foreground: 200 100% 50%; /* Electric Blue */
+    --muted: 210 15% 30%;
+    --muted-foreground: 210 20% 65%; /* Muted Grey */
+    --accent: 210 15% 30%;
+    --accent-foreground: 200 100% 50%;
+    --destructive: 0 70% 50%; /* Bright Red for alerts */
+    --destructive-foreground: 210 20% 90%;
+    --border: 210 15% 35%; /* Grey Border */
+    --input: 210 15% 35%;
+    --ring: 200 100% 50%; /* Electric Blue for focus */
   }
 }
 
