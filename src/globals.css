@@ -118,6 +118,36 @@
     --input: 220 20% 25%;
     --ring: 180 100% 50%;
   }
+
+  .quantum-dark {
+    --background: 240 10% 4%; /* Very Dark Blue/Black */
+    --foreground: 210 40% 98%; /* Light Gray */
+
+    --card: 240 10% 8%; /* Slightly Lighter Dark Blue */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 240 10% 4%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 260 100% 70%; /* Vibrant Violet */
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 250 50% 20%; /* Deep Purple */
+    --secondary-foreground: 260 100% 70%;
+
+    --muted: 250 50% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 250 50% 20%;
+    --accent-foreground: 260 100% 70%;
+
+    --destructive: 0 70% 40%; /* Bright Red */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 250 50% 20%;
+    --input: 250 50% 20%;
+    --ring: 260 100% 70%;
+  }
 }
 
 @layer base {
