@@ -8,6 +8,9 @@ const Index = () => {
         <ThemeSwitcher />
       </div>
       <HackALot />
+      <footer className="absolute bottom-4 text-sm text-muted-foreground">
+        © {new Date().getFullYear()} Anusha N. All rights reserved.
+      </footer>
     </div>
   );
 };
