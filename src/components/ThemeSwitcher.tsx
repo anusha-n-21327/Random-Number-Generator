@@ -1,49 +1,26 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 export function ThemeSwitcher() {
   const { setTheme } = useTheme()
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("tech-noir")}>
-          Tech Noir
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("quantum-dark")}>
-          Quantum Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("neon-dusk")}>
-          Neon Dusk
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("onyx-neon")}>
-          Onyx Neon
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+  React.useEffect(() => {
+    const themes = ["tech-noir", "onyx-neon"];
+    const lastTheme = localStorage.getItem("last-selected-theme");
+    let nextThemeIndex = 0;
+
+    if (lastTheme) {
+      const lastIndex = themes.indexOf(lastTheme);
+      nextThemeIndex = (lastIndex + 1) % themes.length;
+    }
+
+    const newTheme = themes[nextThemeIndex];
+    setTheme(newTheme);
+    localStorage.setItem("last-selected-theme", newTheme);
+  }, [setTheme]);
+
+  // This component no longer renders any UI as it's for automatic switching
+  return null;
 }
