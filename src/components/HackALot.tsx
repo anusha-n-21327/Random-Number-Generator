@@ -95,11 +95,20 @@ export const HackALot = () => {
     if (isShuffling || isNaN(newMax) || newMax <= 0) {
       return;
     }
-    
+
     setMaxNumber(newMax);
+
+    // Filter existing excluded numbers to ensure they are within the new range
+    const updatedExcludedNumbers = excludedNumbers.filter(num => num <= newMax);
+    setExcludedNumbers(updatedExcludedNumbers);
+
+    // Generate the new full range of numbers
     const newInitialNumbers = Array.from({ length: newMax }, (_, i) => i + 1);
-    setAvailableNumbers(newInitialNumbers);
-    setExcludedNumbers([]);
+
+    // Create new available numbers by filtering out the updated excluded numbers
+    const newAvailableNumbers = newInitialNumbers.filter(num => !updatedExcludedNumbers.includes(num));
+    setAvailableNumbers(newAvailableNumbers);
+
     setCurrentNumber(null);
     setIsRevealed(false);
   };
@@ -121,7 +130,7 @@ export const HackALot = () => {
       const finalRandomIndex = Math.floor(Math.random() * availableNumbers.length);
       const drawnNumber = availableNumbers[finalRandomIndex];
       setCurrentNumber(drawnNumber);
-      setExcludedNumbers((prev) => [...prev, drawnNumber]);
+      setExcludedNumbers((prev) => [...prev, drawnNumber].sort((a, b) => a - b));
       setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
       setIsShuffling(false);
       setIsRevealed(true);
