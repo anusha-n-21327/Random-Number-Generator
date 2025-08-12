@@ -101,7 +101,11 @@ export const NumberShuffler = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
-        <div className="relative w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden">
+        <div
+          className={`relative w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden ${
+            isShuffling ? "animate-swirl" : ""
+          }`}
+        >
           {isShuffling && bubbles.map((bubble) => (
             <Bubble key={bubble.id} style={bubble.style} />
           ))}
