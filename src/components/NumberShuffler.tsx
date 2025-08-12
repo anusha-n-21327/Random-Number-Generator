@@ -70,7 +70,11 @@ export const NumberShuffler = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
-        <div className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden">
+        <div
+          className={`w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden ${
+            isShuffling ? "animate-time-warp" : ""
+          }`}
+        >
           <span
             className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
               isShuffling ? "opacity-50" : "opacity-100"
