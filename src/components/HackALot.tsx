@@ -164,7 +164,7 @@ export const HackALot = () => {
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 50"
+              placeholder="Enter the numbers to shuffle..."
               disabled={isShuffling}
             />
             <Button onClick={handleSetRange} disabled={isShuffling}>Set</Button>
