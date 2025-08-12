@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,43 +9,106 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
 const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
 
+// Local storage keys
+const LS_PREFIX = "hackALot_";
+const LS_MAX_NUMBER = `${LS_PREFIX}maxNumber`;
+const LS_AVAILABLE = `${LS_PREFIX}availableNumbers`;
+const LS_EXCLUDED = `${LS_PREFIX}excludedNumbers`;
+const LS_CURRENT = `${LS_PREFIX}currentNumber`;
+
 export const HackALot = () => {
-  const [availableNumbers, setAvailableNumbers] =
-    useState<number[]>(INITIAL_NUMBERS);
+  const [inputValue, setInputValue] = useState<string>("66");
+  const [maxNumber, setMaxNumber] = useState<number>(66);
+  const [availableNumbers, setAvailableNumbers] = useState<number[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
   const [animationTrigger, setAnimationTrigger] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const drawNumber = () => {
-    if (availableNumbers.length === 0 || isShuffling) {
+  // Load state from local storage on initial render
+  useEffect(() => {
+    try {
+      const savedMax = localStorage.getItem(LS_MAX_NUMBER);
+      const savedAvailable = localStorage.getItem(LS_AVAILABLE);
+      const savedExcluded = localStorage.getItem(LS_EXCLUDED);
+      const savedCurrent = localStorage.getItem(LS_CURRENT);
+
+      const initialMax = savedMax ? JSON.parse(savedMax) : 66;
+      setMaxNumber(initialMax);
+      setInputValue(String(initialMax));
+
+      if (savedAvailable && savedExcluded) {
+        setAvailableNumbers(JSON.parse(savedAvailable));
+        setExcludedNumbers(JSON.parse(savedExcluded));
+        const current = savedCurrent ? JSON.parse(savedCurrent) : null;
+        if (current !== null) {
+          setCurrentNumber(current);
+          setIsRevealed(true);
+        }
+      } else {
+        const initialNumbers = Array.from({ length: initialMax }, (_, i) => i + 1);
+        setAvailableNumbers(initialNumbers);
+      }
+    } catch (error) {
+      console.error("Error loading from localStorage:", error);
+      const initialNumbers = Array.from({ length: 66 }, (_, i) => i + 1);
+      setAvailableNumbers(initialNumbers);
+    } finally {
+      setIsInitialized(true);
+    }
+  }, []);
+
+  // Save state to local storage whenever it changes
+  useEffect(() => {
+    if (!isInitialized) return;
+    try {
+      localStorage.setItem(LS_MAX_NUMBER, JSON.stringify(maxNumber));
+      localStorage.setItem(LS_AVAILABLE, JSON.stringify(availableNumbers));
+      localStorage.setItem(LS_EXCLUDED, JSON.stringify(excludedNumbers));
+      localStorage.setItem(LS_CURRENT, JSON.stringify(currentNumber));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  }, [maxNumber, availableNumbers, excludedNumbers, currentNumber, isInitialized]);
+
+  const handleSetRange = () => {
+    const newMax = parseInt(inputValue, 10);
+    if (isShuffling || isNaN(newMax) || newMax <= 0) {
       return;
     }
+    
+    setMaxNumber(newMax);
+    const newInitialNumbers = Array.from({ length: newMax }, (_, i) => i + 1);
+    setAvailableNumbers(newInitialNumbers);
+    setExcludedNumbers([]);
+    setCurrentNumber(null);
+    setIsRevealed(false);
+  };
+
+  const drawNumber = () => {
+    if (availableNumbers.length === 0 || isShuffling) return;
 
     setIsRevealed(false);
     setIsShuffling(true);
 
     const shuffleInterval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * availableNumbers.length);
-      const randomTempNumber = availableNumbers[randomIndex];
-      setCurrentNumber(randomTempNumber);
+      setCurrentNumber(availableNumbers[randomIndex]);
       setAnimationTrigger((prev) => prev + 1);
     }, SHUFFLE_INTERVAL);
 
     setTimeout(() => {
       clearInterval(shuffleInterval);
-
-      const finalRandomIndex = Math.floor(
-        Math.random() * availableNumbers.length,
-      );
+      const finalRandomIndex = Math.floor(Math.random() * availableNumbers.length);
       const drawnNumber = availableNumbers[finalRandomIndex];
-
       setCurrentNumber(drawnNumber);
       setExcludedNumbers((prev) => [...prev, drawnNumber]);
       setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
@@ -56,7 +119,8 @@ export const HackALot = () => {
 
   const reset = () => {
     if (isShuffling) return;
-    setAvailableNumbers(INITIAL_NUMBERS);
+    const initialNumbers = Array.from({ length: maxNumber }, (_, i) => i + 1);
+    setAvailableNumbers(initialNumbers);
     setCurrentNumber(null);
     setExcludedNumbers([]);
     setIsRevealed(false);
@@ -72,6 +136,20 @@ export const HackALot = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
+        <div className="w-full space-y-2">
+          <Label htmlFor="max-number-input">How many numbers to shuffle?</Label>
+          <div className="flex space-x-2">
+            <Input
+              id="max-number-input"
+              type="number"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="e.g., 66"
+              disabled={isShuffling}
+            />
+            <Button onClick={handleSetRange} disabled={isShuffling}>Set</Button>
+          </div>
+        </div>
         <div
           className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
           style={{ perspective: "1000px" }}
@@ -87,10 +165,7 @@ export const HackALot = () => {
           </span>
         </div>
         <div className="flex space-x-4">
-          <Button
-            onClick={drawNumber}
-            disabled={availableNumbers.length === 0 || isShuffling}
-          >
+          <Button onClick={drawNumber} disabled={availableNumbers.length === 0 || isShuffling}>
             {isShuffling ? "Shuffling..." : "Start shuffling"}
           </Button>
           <Button onClick={reset} variant="outline" disabled={isShuffling}>
