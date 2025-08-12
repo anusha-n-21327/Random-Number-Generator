@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
-const SHUFFLE_ANIMATION_DURATION = 3500;
+const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
 
 export const HackALot = () => {
@@ -67,8 +67,8 @@ export const HackALot = () => {
       <CardHeader>
         <CardTitle>Hack-a-Lot</CardTitle>
         <CardDescription>
-          Draw a number from the pool. It will be excluded from future draws
-          until you reset.
+          Pick a number from the pool and unlock your next exciting challenge —
+          every draw brings a fresh adventure! 🚀
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
