@@ -31,9 +31,6 @@ export function ThemeSwitcher() {
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("pink")}>
-          Pink
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

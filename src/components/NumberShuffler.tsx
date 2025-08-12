@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,27 +11,46 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
+const SHUFFLE_ANIMATION_DURATION = 1000; // 1 second
+const SHUFFLE_INTERVAL = 50; // update every 50ms
 
 export const NumberShuffler = () => {
   const [availableNumbers, setAvailableNumbers] =
     useState<number[]>(INITIAL_NUMBERS);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   const drawNumber = () => {
-    if (availableNumbers.length === 0) {
+    if (availableNumbers.length === 0 || isShuffling) {
       return;
     }
 
-    const randomIndex = Math.floor(Math.random() * availableNumbers.length);
-    const drawnNumber = availableNumbers[randomIndex];
+    setIsShuffling(true);
 
-    setCurrentNumber(drawnNumber);
-    setExcludedNumbers((prev) => [...prev, drawnNumber]);
-    setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
+    const shuffleInterval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+      const randomTempNumber = availableNumbers[randomIndex];
+      setCurrentNumber(randomTempNumber);
+    }, SHUFFLE_INTERVAL);
+
+    setTimeout(() => {
+      clearInterval(shuffleInterval);
+
+      const finalRandomIndex = Math.floor(
+        Math.random() * availableNumbers.length,
+      );
+      const drawnNumber = availableNumbers[finalRandomIndex];
+
+      setCurrentNumber(drawnNumber);
+      setExcludedNumbers((prev) => [...prev, drawnNumber]);
+      setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
+      setIsShuffling(false);
+    }, SHUFFLE_ANIMATION_DURATION);
   };
 
   const reset = () => {
+    if (isShuffling) return;
     setAvailableNumbers(INITIAL_NUMBERS);
     setCurrentNumber(null);
     setExcludedNumbers([]);
@@ -53,14 +72,17 @@ export const NumberShuffler = () => {
           </span>
         </div>
         <div className="flex space-x-4">
-          <Button onClick={drawNumber} disabled={availableNumbers.length === 0}>
-            Start shuffling
+          <Button
+            onClick={drawNumber}
+            disabled={availableNumbers.length === 0 || isShuffling}
+          >
+            {isShuffling ? "Shuffling..." : "Start shuffling"}
           </Button>
-          <Button onClick={reset} variant="outline">
+          <Button onClick={reset} variant="outline" disabled={isShuffling}>
             Reset
           </Button>
         </div>
-        {availableNumbers.length === 0 && (
+        {availableNumbers.length === 0 && !isShuffling && (
           <p className="text-muted-foreground pt-4">
             All numbers have been drawn!
           </p>
