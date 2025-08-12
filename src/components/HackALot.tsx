@@ -11,6 +11,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
@@ -168,9 +179,26 @@ export const HackALot = () => {
           <Button onClick={drawNumber} disabled={availableNumbers.length === 0 || isShuffling}>
             {isShuffling ? "Shuffling..." : "Start shuffling"}
           </Button>
-          <Button onClick={reset} variant="outline" disabled={isShuffling}>
-            Reset
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" disabled={isShuffling}>
+                Reset
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will clear all excluded
+                  numbers and reset the game.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={reset}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
         {availableNumbers.length === 0 && !isShuffling && (
           <p className="text-muted-foreground pt-4">

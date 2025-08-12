@@ -88,6 +88,36 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  .tech-noir {
+    --background: 220 13% 10%; /* Charcoal Black */
+    --foreground: 210 40% 98%; /* Light Gray */
+
+    --card: 220 13% 14%; /* Darker Charcoal */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 13% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 180 100% 50%; /* Electric Cyan */
+    --primary-foreground: 220 13% 10%;
+
+    --secondary: 220 20% 25%; /* Deep Blue */
+    --secondary-foreground: 180 100% 50%;
+
+    --muted: 220 20% 25%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 220 20% 25%;
+    --accent-foreground: 180 100% 50%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 25%;
+    --input: 220 20% 25%;
+    --ring: 180 100% 50%;
+  }
 }
 
 @layer base {
