@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,12 +20,14 @@ export const NumberShuffler = () => {
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
 
   const drawNumber = () => {
     if (availableNumbers.length === 0 || isShuffling) {
       return;
     }
 
+    setIsRevealed(false);
     setIsShuffling(true);
 
     const shuffleInterval = setInterval(() => {
@@ -46,6 +48,7 @@ export const NumberShuffler = () => {
       setExcludedNumbers((prev) => [...prev, drawnNumber]);
       setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
       setIsShuffling(false);
+      setIsRevealed(true);
     }, SHUFFLE_ANIMATION_DURATION);
   };
 
@@ -54,6 +57,7 @@ export const NumberShuffler = () => {
     setAvailableNumbers(INITIAL_NUMBERS);
     setCurrentNumber(null);
     setExcludedNumbers([]);
+    setIsRevealed(false);
   };
 
   return (
@@ -66,8 +70,12 @@ export const NumberShuffler = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
-        <div className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center">
-          <span className="text-7xl font-bold text-secondary-foreground">
+        <div className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden">
+          <span
+            className={`text-7xl font-bold text-secondary-foreground ${
+              isRevealed && !isShuffling ? "animate-zoom-in" : ""
+            }`}
+          >
             {currentNumber ?? "?"}
           </span>
         </div>
