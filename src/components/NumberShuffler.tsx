@@ -107,14 +107,11 @@ export const NumberShuffler = () => {
         <h3 className="font-semibold">Excluded Numbers:</h3>
         <div className="flex flex-wrap gap-2">
           {excludedNumbers.length > 0 ? (
-            excludedNumbers
-              .slice()
-              .sort((a, b) => a - b)
-              .map((num) => (
-                <Badge key={num} variant="secondary">
-                  {num}
-                </Badge>
-              ))
+            excludedNumbers.map((num) => (
+              <Badge key={num} variant="secondary">
+                {num}
+              </Badge>
+            ))
           ) : (
             <p className="text-sm text-muted-foreground">
               No numbers excluded yet.
