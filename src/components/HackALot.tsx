@@ -23,8 +23,8 @@ const LS_EXCLUDED = `${LS_PREFIX}excludedNumbers`;
 const LS_CURRENT = `${LS_PREFIX}currentNumber`;
 
 export const HackALot = () => {
-  const [inputValue, setInputValue] = useState<string>("66");
-  const [maxNumber, setMaxNumber] = useState<number>(66);
+  const [inputValue, setInputValue] = useState<string>("50");
+  const [maxNumber, setMaxNumber] = useState<number>(50);
   const [availableNumbers, setAvailableNumbers] = useState<number[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
@@ -41,7 +41,7 @@ export const HackALot = () => {
       const savedExcluded = localStorage.getItem(LS_EXCLUDED);
       const savedCurrent = localStorage.getItem(LS_CURRENT);
 
-      const initialMax = savedMax ? JSON.parse(savedMax) : 66;
+      const initialMax = savedMax ? JSON.parse(savedMax) : 50;
       setMaxNumber(initialMax);
       setInputValue(String(initialMax));
 
@@ -59,7 +59,7 @@ export const HackALot = () => {
       }
     } catch (error) {
       console.error("Error loading from localStorage:", error);
-      const initialNumbers = Array.from({ length: 66 }, (_, i) => i + 1);
+      const initialNumbers = Array.from({ length: 50 }, (_, i) => i + 1);
       setAvailableNumbers(initialNumbers);
     } finally {
       setIsInitialized(true);
@@ -144,7 +144,7 @@ export const HackALot = () => {
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 66"
+              placeholder="e.g., 50"
               disabled={isShuffling}
             />
             <Button onClick={handleSetRange} disabled={isShuffling}>Set</Button>
