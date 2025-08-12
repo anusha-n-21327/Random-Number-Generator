@@ -1,0 +1,90 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+  CardDescription,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+const INITIAL_NUMBERS = Array.from({ length: 20 }, (_, i) => i + 1);
+
+export const NumberShuffler = () => {
+  const [availableNumbers, setAvailableNumbers] =
+    useState<number[]>(INITIAL_NUMBERS);
+  const [currentNumber, setCurrentNumber] = useState<number | null>(null);
+  const [excludedNumbers, setExcludedNumbers] = useState<number[]>([]);
+
+  const drawNumber = () => {
+    if (availableNumbers.length === 0) {
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+    const drawnNumber = availableNumbers[randomIndex];
+
+    setCurrentNumber(drawnNumber);
+    setExcludedNumbers((prev) => [...prev, drawnNumber]);
+    setAvailableNumbers((prev) => prev.filter((num) => num !== drawnNumber));
+  };
+
+  const reset = () => {
+    setAvailableNumbers(INITIAL_NUMBERS);
+    setCurrentNumber(null);
+    setExcludedNumbers([]);
+  };
+
+  return (
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Number Shuffler</CardTitle>
+        <CardDescription>
+          Draw a number from the pool. It will be excluded from future draws
+          until you reset.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
+        <div className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center">
+          <span className="text-7xl font-bold text-secondary-foreground">
+            {currentNumber ?? "?"}
+          </span>
+        </div>
+        <div className="flex space-x-4">
+          <Button onClick={drawNumber} disabled={availableNumbers.length === 0}>
+            Draw Number
+          </Button>
+          <Button onClick={reset} variant="outline">
+            Reset
+          </Button>
+        </div>
+        {availableNumbers.length === 0 && (
+          <p className="text-muted-foreground pt-4">
+            All numbers have been drawn!
+          </p>
+        )}
+      </CardContent>
+      <CardFooter className="flex flex-col items-start space-y-2">
+        <h3 className="font-semibold">Excluded Numbers:</h3>
+        <div className="flex flex-wrap gap-2">
+          {excludedNumbers.length > 0 ? (
+            excludedNumbers
+              .slice()
+              .sort((a, b) => a - b)
+              .map((num) => (
+                <Badge key={num} variant="secondary">
+                  {num}
+                </Badge>
+              ))
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No numbers excluded yet.
+            </p>
+          )}
+        </div>
+      </CardFooter>
+    </Card>
+  );
+};
