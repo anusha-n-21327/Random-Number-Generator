@@ -149,7 +149,7 @@ export const HackALot = () => {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Hack-a-Lot</CardTitle>
+        <CardTitle className="text-primary">Hack-a-Lot</CardTitle>
         <CardDescription>
           Pick a number from the pool and unlock your next exciting challenge —
           every draw brings a fresh adventure! 🚀
