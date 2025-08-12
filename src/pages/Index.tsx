@@ -1,4 +1,4 @@
-import { NumberShuffler } from "@/components/NumberShuffler";
+import { HackALot } from "@/components/HackALot";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const Index = () => {
@@ -7,7 +7,7 @@ const Index = () => {
       <div className="absolute top-4 right-4">
         <ThemeSwitcher />
       </div>
-      <NumberShuffler />
+      <HackALot />
     </div>
   );
 };

@@ -14,7 +14,7 @@ const INITIAL_NUMBERS = Array.from({ length: 66 }, (_, i) => i + 1);
 const SHUFFLE_ANIMATION_DURATION = 1000;
 const SHUFFLE_INTERVAL = 150;
 
-export const NumberShuffler = () => {
+export const HackALot = () => {
   const [availableNumbers, setAvailableNumbers] =
     useState<number[]>(INITIAL_NUMBERS);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
@@ -65,7 +65,7 @@ export const NumberShuffler = () => {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Number Shuffler</CardTitle>
+        <CardTitle>Hack-a-Lot</CardTitle>
         <CardDescription>
           Draw a number from the pool. It will be excluded from future draws
           until you reset.
