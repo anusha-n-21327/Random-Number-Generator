@@ -40,6 +40,9 @@ export function ThemeSwitcher() {
         <DropdownMenuItem onClick={() => setTheme("neon-dusk")}>
           Neon Dusk
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("onyx-neon")}>
+          Onyx Neon
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

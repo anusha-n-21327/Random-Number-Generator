@@ -178,6 +178,36 @@
     --input: 270 15% 25%;
     --ring: 330 100% 65%; /* Electric Pink for focus */
   }
+
+  .onyx-neon {
+    --background: 240 10% 3%; /* Onyx Black */
+    --foreground: 210 40% 98%; /* Light Gray */
+
+    --card: 240 10% 7%; /* Darker Onyx */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 240 10% 3%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 130 100% 50%; /* Neon Green */
+    --primary-foreground: 130 100% 5%;
+
+    --secondary: 130 10% 20%; /* Dark Muted Green */
+    --secondary-foreground: 130 100% 50%;
+
+    --muted: 130 10% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 130 10% 20%;
+    --accent-foreground: 130 100% 50%;
+
+    --destructive: 350 100% 60%; /* Neon Red/Pink */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 240 10% 15%;
+    --input: 240 10% 15%;
+    --ring: 130 100% 50%;
+  }
 }
 
 @layer base {
