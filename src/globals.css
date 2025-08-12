@@ -148,6 +148,36 @@
     --input: 250 50% 20%;
     --ring: 260 100% 70%;
   }
+
+  .neon-dusk {
+    --background: 270 15% 10%; /* Deep Indigo */
+    --foreground: 270 10% 95%; /* Lavender White */
+
+    --card: 270 15% 12%; /* Slightly Lighter Indigo */
+    --card-foreground: 270 10% 95%;
+
+    --popover: 270 15% 10%;
+    --popover-foreground: 270 10% 95%;
+
+    --primary: 330 100% 65%; /* Electric Pink */
+    --primary-foreground: 330 100% 10%; /* Dark Pink for contrast */
+
+    --secondary: 270 80% 70%; /* Luminous Purple */
+    --secondary-foreground: 270 80% 98%; /* Very light purple */
+
+    --muted: 270 15% 20%; /* Muted Indigo */
+    --muted-foreground: 270 10% 65%; /* Greyish Lavender */
+
+    --accent: 270 80% 70%; /* Luminous Purple */
+    --accent-foreground: 270 80% 98%;
+
+    --destructive: 0 84.2% 60.2%; /* Standard Destructive Red */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 270 15% 25%; /* Indigo Border */
+    --input: 270 15% 25%;
+    --ring: 330 100% 65%; /* Electric Pink for focus */
+  }
 }
 
 @layer base {

@@ -37,6 +37,9 @@ export function ThemeSwitcher() {
         <DropdownMenuItem onClick={() => setTheme("quantum-dark")}>
           Quantum Dark
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("neon-dusk")}>
+          Neon Dusk
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
