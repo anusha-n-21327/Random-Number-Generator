@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { cn } from "@/lib/utils";
 
 const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
@@ -146,6 +147,9 @@ export const HackALot = () => {
     setIsRevealed(false);
   };
 
+  const isNewValueValid = !isNaN(parseInt(inputValue, 10)) && parseInt(inputValue, 10) > 0;
+  const showPulse = isNewValueValid && parseInt(inputValue, 10) !== maxNumber;
+
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -167,7 +171,13 @@ export const HackALot = () => {
               placeholder="Enter the numbers to shuffle..."
               disabled={isShuffling}
             />
-            <Button onClick={handleSetRange} disabled={isShuffling}>Set</Button>
+            <Button 
+              onClick={handleSetRange} 
+              disabled={isShuffling}
+              className={cn(showPulse && "animate-pulse-glow")}
+            >
+              Set
+            </Button>
           </div>
         </div>
         <div
