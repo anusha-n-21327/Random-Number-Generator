@@ -44,6 +44,7 @@ export const HackALot = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [animationTrigger, setAnimationTrigger] = useState(0);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false);
 
   // Load state from local storage on initial render
   useEffect(() => {
@@ -97,6 +98,9 @@ export const HackALot = () => {
       return;
     }
 
+    setIsFlashing(true);
+    setTimeout(() => setIsFlashing(false), 500); // Animation is 0.5s
+
     setMaxNumber(newMax);
 
     // Filter existing excluded numbers to ensure they are within the new range
@@ -147,9 +151,6 @@ export const HackALot = () => {
     setIsRevealed(false);
   };
 
-  const isNewValueValid = !isNaN(parseInt(inputValue, 10)) && parseInt(inputValue, 10) > 0;
-  const showPulse = isNewValueValid && parseInt(inputValue, 10) !== maxNumber;
-
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -174,7 +175,7 @@ export const HackALot = () => {
             <Button 
               onClick={handleSetRange} 
               disabled={isShuffling}
-              className={cn(showPulse && "animate-pulse-glow")}
+              className={cn(isFlashing && "animate-flash-white")}
             >
               Set
             </Button>

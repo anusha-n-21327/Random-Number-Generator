@@ -97,12 +97,10 @@ export default {
             transform: "rotateX(360deg)",
           },
         },
-        "pulse-glow": {
-          "0%, 100%": {
-            boxShadow: "0 0 5px hsl(var(--primary))",
-          },
+        "flash-white": {
           "50%": {
-            boxShadow: "0 0 20px hsl(var(--primary))",
+            backgroundColor: "hsl(var(--foreground))",
+            color: "hsl(var(--background))",
           },
         },
       },
@@ -111,7 +109,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "zoom-in": "zoom-in 0.3s ease-out",
         "flip": "flip 0.15s ease-in-out",
-        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "flash-white": "flash-white 0.5s ease-in-out",
       },
     },
   },
