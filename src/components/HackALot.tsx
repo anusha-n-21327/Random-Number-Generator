@@ -219,7 +219,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
       <CardFooter className="flex flex-col items-start space-y-2">
         <h3 className="font-semibold">Excluded Numbers:</h3>
         <div className="flex flex-wrap gap-2">
-          {excludedNumbers.length > <strong> 0 ? (
+          {excludedNumbers.length > 0 ? (
             excludedNumbers.map((num) => (
               <Badge key={num} variant="secondary">
                 {num}
