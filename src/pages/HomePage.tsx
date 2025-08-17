@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { showError } from "@/utils/toast";
-import { Zap } from "lucide-react";
+import { Zap, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const SHUFFLE_ANIMATION_DURATION = 3000;
@@ -62,7 +62,7 @@ const HomePage = () => {
     if (!isInitialized) return;
     try {
       localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify(excludedNumbers));
-    } catch (error) {
+    } catch (error)
       console.error("Error saving excluded numbers to localStorage:", error);
     }
   }, [excludedNumbers, isInitialized]);
@@ -74,7 +74,6 @@ const HomePage = () => {
       return;
     }
 
-    // Keep existing excluded numbers, but filter out any that are larger than the new max number.
     const updatedExcludedNumbers = excludedNumbers.filter((n) => n <= num);
     setExcludedNumbers(updatedExcludedNumbers);
 
@@ -126,6 +125,14 @@ const HomePage = () => {
     setCurrentNumber(null);
     setIsRevealed(false);
     localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify([]));
+  };
+
+  const handleRemoveExcludedNumber = (numberToRemove: number) => {
+    if (isShuffling) return;
+    setExcludedNumbers((prev) => prev.filter((num) => num !== numberToRemove));
+    setAvailableNumbers((prev) =>
+      [...prev, numberToRemove].sort((a, b) => a - b),
+    );
   };
 
   return (
@@ -204,8 +211,20 @@ const HomePage = () => {
             <div className="flex flex-wrap gap-2">
               {excludedNumbers.length > 0 ? (
                 excludedNumbers.map((num) => (
-                  <Badge key={num} variant="secondary">
+                  <Badge
+                    key={num}
+                    variant="secondary"
+                    className="flex items-center gap-1 pr-1"
+                  >
                     {num}
+                    <button
+                      onClick={() => handleRemoveExcludedNumber(num)}
+                      className="rounded-full hover:bg-muted-foreground/20 p-0.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label={`Remove number ${num}`}
+                      disabled={isShuffling}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
                   </Badge>
                 ))
               ) : (
