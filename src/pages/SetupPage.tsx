@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,12 +10,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { showError } from "@/utils/toast";
 
 const SetupPage = () => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const location = useLocation();
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState<string>(
+    location.state?.maxNumber?.toString() ?? "",
+  );
 
   const handleNext = () => {
     const num = parseInt(inputValue, 10);
@@ -37,15 +39,14 @@ const SetupPage = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <Label htmlFor="max-number-input">Total Numbers to Shuffle</Label>
             <Input
               id="max-number-input"
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Enter the total number of tasks"
+              placeholder="Total Numbers to Shuffle"
               autoFocus
-              onKeyDown={(e) => e.key === 'Enter' && handleNext()}
+              onKeyDown={(e) => e.key === "Enter" && handleNext()}
             />
           </div>
         </CardContent>

@@ -148,7 +148,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
   };
 
   const goBackToSetup = () => {
-    navigate("/setup");
+    navigate("/setup", { state: { maxNumber } });
   };
 
   return (
