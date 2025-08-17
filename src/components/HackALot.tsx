@@ -208,7 +208,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
           </AlertDialog>
         </div>
         <Button variant="link" onClick={startOver} disabled={isShuffling}>
-          Start a new game
+          Change Setup
         </Button>
         {availableNumbers.length === 0 && !isShuffling && (
           <p className="text-muted-foreground pt-4">
