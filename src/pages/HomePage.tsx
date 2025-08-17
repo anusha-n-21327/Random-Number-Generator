@@ -62,7 +62,7 @@ const HomePage = () => {
     if (!isInitialized) return;
     try {
       localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify(excludedNumbers));
-    } catch (error)
+    } catch (error) {
       console.error("Error saving excluded numbers to localStorage:", error);
     }
   }, [excludedNumbers, isInitialized]);
