@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { showError } from "@/utils/toast";
 import { Zap } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
@@ -51,6 +52,7 @@ const HomePage = () => {
 
       if (loadedMax) {
         setMaxNumber(loadedMax);
+        setInputValue(loadedMax.toString());
         setExcludedNumbers(loadedExcluded);
         const initialNumbers = Array.from(
           { length: loadedMax },
@@ -134,123 +136,119 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 animate-fade-in">
       <Card className="w-full max-w-md mx-auto transition-transform duration-300 hover:-translate-y-1">
-        {!maxNumber ? (
-          <>
-            <CardHeader>
-              <CardTitle className="text-3xl font-bold text-primary flex items-center justify-center gap-2">
-                <Zap className="h-8 w-8" />
-                Welcome to Hack-a-Lot!
-              </CardTitle>
-              <CardDescription>
-                How many tasks are we shuffling today?
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Input
-                type="number"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Total Numbers to Shuffle"
-                autoFocus
-                onKeyDown={(e) => e.key === "Enter" && handleSetup()}
-              />
-            </CardContent>
-            <CardFooter className="flex justify-center">
-              <Button
-                onClick={handleSetup}
-                size="lg"
-                className="transition-transform duration-200 hover:scale-105 active:scale-95"
-              >
-                Start Your Adventure!
-              </Button>
-            </CardFooter>
-          </>
-        ) : (
-          <>
-            <CardHeader>
-              <CardTitle className="text-primary">Hack-a-Lot</CardTitle>
-              <CardDescription>
-                Shuffling from 1 to {maxNumber}. Good luck! 🚀
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center space-y-6 py-10">
-              <div
-                className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
-                style={{ perspective: "1000px" }}
-              >
-                <span
-                  key={animationTrigger}
-                  className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
-                    isShuffling ? "animate-flip" : ""
-                  } ${isRevealed && !isShuffling ? "animate-zoom-in" : ""}`}
-                  style={{ transformStyle: "preserve-3d" }}
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-primary flex items-center justify-center gap-2">
+            <Zap className="h-8 w-8" />
+            Hack-a-Lot
+          </CardTitle>
+          <CardDescription>
+            Enter the total number of tasks to start shuffling.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex w-full items-center space-x-2">
+            <Input
+              type="number"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Total Numbers to Shuffle"
+              autoFocus
+              onKeyDown={(e) => e.key === "Enter" && handleSetup()}
+              disabled={!!maxNumber}
+            />
+            <Button
+              onClick={handleSetup}
+              disabled={!!maxNumber}
+              className="transition-transform duration-200 hover:scale-105 active:scale-95"
+            >
+              Set
+            </Button>
+          </div>
+
+          {maxNumber && (
+            <>
+              <Separator className="my-6" />
+              <div className="flex flex-col items-center justify-center space-y-6">
+                <div
+                  className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
+                  style={{ perspective: "1000px" }}
                 >
-                  {currentNumber ?? "?"}
-                </span>
-              </div>
-              <div className="flex space-x-4">
-                <Button
-                  onClick={drawNumber}
-                  disabled={availableNumbers.length === 0 || isShuffling}
-                  className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                >
-                  {isShuffling ? "Shuffling..." : "Start shuffling"}
-                </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      disabled={isShuffling}
-                      className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                    >
-                      Reset
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you sure you want to reset?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will clear all drawn numbers and the total task
-                        count. This action cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={reset}
+                  <span
+                    key={animationTrigger}
+                    className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
+                      isShuffling ? "animate-flip" : ""
+                    } ${isRevealed && !isShuffling ? "animate-zoom-in" : ""}`}
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {currentNumber ?? "?"}
+                  </span>
+                </div>
+                <div className="flex space-x-4">
+                  <Button
+                    onClick={drawNumber}
+                    disabled={availableNumbers.length === 0 || isShuffling}
+                    className="transition-transform duration-200 hover:scale-105 active:scale-95"
+                  >
+                    {isShuffling ? "Shuffling..." : "Start shuffling"}
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        disabled={isShuffling}
                         className="transition-transform duration-200 hover:scale-105 active:scale-95"
                       >
-                        Reset Session
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-              {availableNumbers.length === 0 && !isShuffling && (
-                <p className="text-muted-foreground pt-4">
-                  All numbers have been drawn!
-                </p>
-              )}
-            </CardContent>
-            <CardFooter className="flex flex-col items-start space-y-2">
-              <h3 className="font-semibold">Excluded Numbers:</h3>
-              <div className="flex flex-wrap gap-2">
-                {excludedNumbers.length > 0 ? (
-                  excludedNumbers.map((num) => (
-                    <Badge key={num} variant="secondary">
-                      {num}
-                    </Badge>
-                  ))
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    No numbers excluded yet.
+                        Reset
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to reset?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will clear all drawn numbers and the total task
+                          count. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={reset}
+                          className="transition-transform duration-200 hover:scale-105 active:scale-95"
+                        >
+                          Reset Session
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+                {availableNumbers.length === 0 && !isShuffling && (
+                  <p className="text-muted-foreground pt-4">
+                    All numbers have been drawn!
                   </p>
                 )}
               </div>
-            </CardFooter>
-          </>
+            </>
+          )}
+        </CardContent>
+        {maxNumber && (
+          <CardFooter className="flex flex-col items-start space-y-2">
+            <h3 className="font-semibold">Excluded Numbers:</h3>
+            <div className="flex flex-wrap gap-2">
+              {excludedNumbers.length > 0 ? (
+                excludedNumbers.map((num) => (
+                  <Badge key={num} variant="secondary">
+                    {num}
+                  </Badge>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  No numbers excluded yet.
+                </p>
+              )}
+            </div>
+          </CardFooter>
         )}
       </Card>
       <footer className="absolute bottom-4 text-sm text-muted-foreground">
