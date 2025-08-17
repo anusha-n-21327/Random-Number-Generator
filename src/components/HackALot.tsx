@@ -25,15 +25,8 @@ import { useNavigate } from "react-router-dom";
 const SHUFFLE_ANIMATION_DURATION = 3000;
 const SHUFFLE_INTERVAL = 150;
 
-// Local storage keys are now dynamic based on the max number
-const getLsKeys = (max: number) => {
-  const LS_PREFIX = `hackALot_${max}_`;
-  return {
-    LS_AVAILABLE: `${LS_PREFIX}availableNumbers`,
-    LS_EXCLUDED: `${LS_PREFIX}excludedNumbers`,
-    LS_CURRENT: `${LS_PREFIX}currentNumber`,
-  };
-};
+// Use a single global key for excluded numbers to persist them across sessions
+const LS_EXCLUDED_GLOBAL = "hackALot_excludedNumbers";
 
 interface HackALotProps {
   initialMaxNumber: number;
@@ -50,61 +43,39 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const navigate = useNavigate();
 
-  const { LS_AVAILABLE, LS_EXCLUDED, LS_CURRENT } = getLsKeys(maxNumber);
-
-  // Load state from local storage on initial render
+  // Load global excluded numbers and initialize component state
   useEffect(() => {
+    let loadedExcludedNumbers: number[] = [];
     try {
-      const savedAvailable = localStorage.getItem(LS_AVAILABLE);
-      const savedExcluded = localStorage.getItem(LS_EXCLUDED);
-      const savedCurrent = localStorage.getItem(LS_CURRENT);
-
-      if (savedAvailable && savedExcluded) {
-        setAvailableNumbers(JSON.parse(savedAvailable));
-        setExcludedNumbers(JSON.parse(savedExcluded));
-        const current = savedCurrent ? JSON.parse(savedCurrent) : null;
-        if (current !== null) {
-          setCurrentNumber(current);
-          setIsRevealed(true);
-        }
-      } else {
-        const initialNumbers = Array.from(
-          { length: maxNumber },
-          (_, i) => i + 1,
-        );
-        setAvailableNumbers(initialNumbers);
+      const savedExcluded = localStorage.getItem(LS_EXCLUDED_GLOBAL);
+      if (savedExcluded) {
+        loadedExcludedNumbers = JSON.parse(savedExcluded);
       }
     } catch (error) {
-      console.error("Error loading from localStorage:", error);
-      const initialNumbers = Array.from(
-        { length: maxNumber },
-        (_, i) => i + 1,
-      );
-      setAvailableNumbers(initialNumbers);
-    } finally {
-      setIsInitialized(true);
+      console.error("Error loading excluded numbers from localStorage:", error);
+      loadedExcludedNumbers = [];
     }
-  }, [maxNumber, LS_AVAILABLE, LS_EXCLUDED, LS_CURRENT]);
 
-  // Save state to local storage whenever it changes
+    setExcludedNumbers(loadedExcludedNumbers);
+
+    const initialNumbers = Array.from({ length: maxNumber }, (_, i) => i + 1);
+    const initialAvailable = initialNumbers.filter(
+      (num) => !loadedExcludedNumbers.includes(num),
+    );
+    setAvailableNumbers(initialAvailable);
+
+    setIsInitialized(true);
+  }, [maxNumber]);
+
+  // Save excluded numbers to local storage whenever they change
   useEffect(() => {
     if (!isInitialized) return;
     try {
-      localStorage.setItem(LS_AVAILABLE, JSON.stringify(availableNumbers));
-      localStorage.setItem(LS_EXCLUDED, JSON.stringify(excludedNumbers));
-      localStorage.setItem(LS_CURRENT, JSON.stringify(currentNumber));
+      localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify(excludedNumbers));
     } catch (error) {
-      console.error("Error saving to localStorage:", error);
+      console.error("Error saving excluded numbers to localStorage:", error);
     }
-  }, [
-    availableNumbers,
-    excludedNumbers,
-    currentNumber,
-    isInitialized,
-    LS_AVAILABLE,
-    LS_EXCLUDED,
-    LS_CURRENT,
-  ]);
+  }, [excludedNumbers, isInitialized]);
 
   const drawNumber = () => {
     if (availableNumbers.length === 0 || isShuffling) return;
@@ -141,10 +112,8 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
     setCurrentNumber(null);
     setExcludedNumbers([]);
     setIsRevealed(false);
-    // Clear local storage for this specific game
-    localStorage.removeItem(LS_AVAILABLE);
-    localStorage.removeItem(LS_EXCLUDED);
-    localStorage.removeItem(LS_CURRENT);
+    // Clear the global excluded numbers from local storage
+    localStorage.removeItem(LS_EXCLUDED_GLOBAL);
   };
 
   const goBackToSetup = () => {
@@ -193,8 +162,8 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
                   Are you sure you want to reset?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  This will clear all drawn numbers for the current session
-                  (1-{maxNumber}).
+                  This will clear all drawn numbers across all sessions. This
+                  action cannot be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
