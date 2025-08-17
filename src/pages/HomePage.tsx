@@ -10,17 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { showError } from "@/utils/toast";
 import { Zap } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -121,18 +110,6 @@ const HomePage = () => {
     }, SHUFFLE_ANIMATION_DURATION);
   };
 
-  const reset = () => {
-    if (isShuffling) return;
-    setMaxNumber(null);
-    setInputValue("");
-    setAvailableNumbers([]);
-    setCurrentNumber(null);
-    setExcludedNumbers([]);
-    setIsRevealed(false);
-    localStorage.removeItem(LS_MAX_NUMBER_GLOBAL);
-    localStorage.removeItem(LS_EXCLUDED_GLOBAL);
-  };
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 animate-fade-in">
       <Card className="w-full max-w-md mx-auto transition-transform duration-300 hover:-translate-y-1">
@@ -154,11 +131,9 @@ const HomePage = () => {
               placeholder="Total Numbers to Shuffle"
               autoFocus
               onKeyDown={(e) => e.key === "Enter" && handleSetup()}
-              disabled={!!maxNumber}
             />
             <Button
               onClick={handleSetup}
-              disabled={!!maxNumber}
               className="transition-transform duration-200 hover:scale-105 active:scale-95"
             >
               Set
@@ -189,37 +164,6 @@ const HomePage = () => {
               >
                 {isShuffling ? "Shuffling..." : "Start shuffling"}
               </Button>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    disabled={!maxNumber || isShuffling}
-                    className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                  >
-                    Reset
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you sure you want to reset?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This will clear all drawn numbers and the total task
-                      count. This action cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={reset}
-                      className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                    >
-                      Reset Session
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
             </div>
             {maxNumber && availableNumbers.length === 0 && !isShuffling && (
               <p className="text-muted-foreground pt-4">

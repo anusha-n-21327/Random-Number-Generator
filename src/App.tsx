@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <ThemeProvider
     attribute="class"
-    defaultTheme="dark"
+    defaultTheme="tech-noir"
     enableSystem
     disableTransitionOnChange
   >
