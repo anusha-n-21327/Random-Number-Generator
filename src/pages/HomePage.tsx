@@ -73,13 +73,21 @@ const HomePage = () => {
       showError("Please enter a valid number greater than 0.");
       return;
     }
+
+    // Keep existing excluded numbers, but filter out any that are larger than the new max number.
+    const updatedExcludedNumbers = excludedNumbers.filter((n) => n <= num);
+    setExcludedNumbers(updatedExcludedNumbers);
+
+    const allNumbers = Array.from({ length: num }, (_, i) => i + 1);
+    const newAvailableNumbers = allNumbers.filter(
+      (n) => !updatedExcludedNumbers.includes(n),
+    );
+
     setMaxNumber(num);
-    setAvailableNumbers(Array.from({ length: num }, (_, i) => i + 1));
-    setExcludedNumbers([]);
+    setAvailableNumbers(newAvailableNumbers);
     setCurrentNumber(null);
     setIsRevealed(false);
     localStorage.setItem(LS_MAX_NUMBER_GLOBAL, num.toString());
-    localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify([]));
   };
 
   const drawNumber = () => {
