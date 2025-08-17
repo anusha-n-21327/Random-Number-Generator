@@ -147,8 +147,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
     localStorage.removeItem(LS_CURRENT);
   };
 
-  const startOver = () => {
-    reset();
+  const goBackToSetup = () => {
     navigate("/setup");
   };
 
@@ -207,8 +206,8 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <Button variant="link" onClick={startOver} disabled={isShuffling}>
-          Change Setup
+        <Button variant="link" onClick={goBackToSetup} disabled={isShuffling}>
+          Go Back
         </Button>
         {availableNumbers.length === 0 && !isShuffling && (
           <p className="text-muted-foreground pt-4">

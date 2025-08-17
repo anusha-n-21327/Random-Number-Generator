@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { showError } from "@/utils/toast";
 
 const SetupPage = () => {
-  const [inputValue, setInputValue] = useState<string>("50");
+  const [inputValue, setInputValue] = useState<string>("");
   const navigate = useNavigate();
 
   const handleNext = () => {
@@ -43,7 +43,7 @@ const SetupPage = () => {
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 50"
+              placeholder="Enter the total number of tasks"
               autoFocus
               onKeyDown={(e) => e.key === 'Enter' && handleNext()}
             />
