@@ -50,7 +50,10 @@ const SetupPage = () => {
             />
           </div>
         </CardContent>
-        <CardFooter className="flex justify-end">
+        <CardFooter className="flex justify-between items-center">
+          <Button variant="link" onClick={() => navigate("/")}>
+            Go to Home
+          </Button>
           <Button onClick={handleNext}>Let's Go!</Button>
         </CardFooter>
       </Card>

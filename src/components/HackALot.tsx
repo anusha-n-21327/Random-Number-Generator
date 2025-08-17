@@ -175,9 +175,22 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <Button variant="link" onClick={goBackToSetup} disabled={isShuffling}>
-          Go Back
-        </Button>
+        <div className="flex items-center justify-center space-x-4">
+          <Button
+            variant="link"
+            onClick={goBackToSetup}
+            disabled={isShuffling}
+          >
+            Go Back
+          </Button>
+          <Button
+            variant="link"
+            onClick={() => navigate("/")}
+            disabled={isShuffling}
+          >
+            Go to Home
+          </Button>
+        </div>
         {availableNumbers.length === 0 && !isShuffling && (
           <p className="text-muted-foreground pt-4">
             All numbers have been drawn!
