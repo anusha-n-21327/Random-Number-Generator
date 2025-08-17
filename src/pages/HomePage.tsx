@@ -165,72 +165,68 @@ const HomePage = () => {
             </Button>
           </div>
 
-          {maxNumber && (
-            <>
-              <Separator className="my-6" />
-              <div className="flex flex-col items-center justify-center space-y-6">
-                <div
-                  className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
-                  style={{ perspective: "1000px" }}
-                >
-                  <span
-                    key={animationTrigger}
-                    className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
-                      isShuffling ? "animate-flip" : ""
-                    } ${isRevealed && !isShuffling ? "animate-zoom-in" : ""}`}
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    {currentNumber ?? "?"}
-                  </span>
-                </div>
-                <div className="flex space-x-4">
+          <Separator className="my-6" />
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div
+              className="w-48 h-48 bg-secondary rounded-lg flex items-center justify-center overflow-hidden"
+              style={{ perspective: "1000px" }}
+            >
+              <span
+                key={animationTrigger}
+                className={`text-7xl font-bold text-secondary-foreground transition-opacity duration-300 ${
+                  isShuffling ? "animate-flip" : ""
+                } ${isRevealed && !isShuffling ? "animate-zoom-in" : ""}`}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {currentNumber ?? "?"}
+              </span>
+            </div>
+            <div className="flex space-x-4">
+              <Button
+                onClick={drawNumber}
+                disabled={!maxNumber || availableNumbers.length === 0 || isShuffling}
+                className="transition-transform duration-200 hover:scale-105 active:scale-95"
+              >
+                {isShuffling ? "Shuffling..." : "Start shuffling"}
+              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
                   <Button
-                    onClick={drawNumber}
-                    disabled={availableNumbers.length === 0 || isShuffling}
+                    variant="outline"
+                    disabled={!maxNumber || isShuffling}
                     className="transition-transform duration-200 hover:scale-105 active:scale-95"
                   >
-                    {isShuffling ? "Shuffling..." : "Start shuffling"}
+                    Reset
                   </Button>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        disabled={isShuffling}
-                        className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                      >
-                        Reset
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you sure you want to reset?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This will clear all drawn numbers and the total task
-                          count. This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={reset}
-                          className="transition-transform duration-200 hover:scale-105 active:scale-95"
-                        >
-                          Reset Session
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-                {availableNumbers.length === 0 && !isShuffling && (
-                  <p className="text-muted-foreground pt-4">
-                    All numbers have been drawn!
-                  </p>
-                )}
-              </div>
-            </>
-          )}
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure you want to reset?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will clear all drawn numbers and the total task
+                      count. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={reset}
+                      className="transition-transform duration-200 hover:scale-105 active:scale-95"
+                    >
+                      Reset Session
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+            {maxNumber && availableNumbers.length === 0 && !isShuffling && (
+              <p className="text-muted-foreground pt-4">
+                All numbers have been drawn!
+              </p>
+            )}
+          </div>
         </CardContent>
         {maxNumber && (
           <CardFooter className="flex flex-col items-start space-y-2">
