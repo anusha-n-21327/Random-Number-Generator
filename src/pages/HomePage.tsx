@@ -110,6 +110,16 @@ const HomePage = () => {
     }, SHUFFLE_ANIMATION_DURATION);
   };
 
+  const handleResetExcluded = () => {
+    if (!maxNumber || isShuffling) return;
+
+    setExcludedNumbers([]);
+    setAvailableNumbers(Array.from({ length: maxNumber }, (_, i) => i + 1));
+    setCurrentNumber(null);
+    setIsRevealed(false);
+    localStorage.setItem(LS_EXCLUDED_GLOBAL, JSON.stringify([]));
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 animate-fade-in">
       <Card className="w-full max-w-md mx-auto transition-transform duration-300 hover:-translate-y-1">
@@ -163,6 +173,14 @@ const HomePage = () => {
                 className="transition-transform duration-200 hover:scale-105 active:scale-95"
               >
                 {isShuffling ? "Shuffling..." : "Start shuffling"}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleResetExcluded}
+                disabled={!maxNumber || excludedNumbers.length === 0 || isShuffling}
+                className="transition-transform duration-200 hover:scale-105 active:scale-95"
+              >
+                Reset
               </Button>
             </div>
             {maxNumber && availableNumbers.length === 0 && !isShuffling && (
