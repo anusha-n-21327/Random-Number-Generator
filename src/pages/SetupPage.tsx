@@ -29,8 +29,8 @@ const SetupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 animate-fade-in">
+      <Card className="w-full max-w-md transition-transform duration-300 hover:-translate-y-1">
         <CardHeader>
           <CardTitle>Setup Your Challenge</CardTitle>
           <CardDescription>
@@ -51,10 +51,19 @@ const SetupPage = () => {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center">
-          <Button variant="link" onClick={() => navigate("/")}>
+          <Button
+            variant="link"
+            onClick={() => navigate("/")}
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
+          >
             Go to Home
           </Button>
-          <Button onClick={handleNext}>Let's Go!</Button>
+          <Button
+            onClick={handleNext}
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
+          >
+            Let's Go!
+          </Button>
         </CardFooter>
       </Card>
       <footer className="absolute bottom-4 text-sm text-muted-foreground">

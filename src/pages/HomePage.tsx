@@ -12,8 +12,8 @@ import { Zap } from "lucide-react";
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-      <Card className="w-full max-w-md text-center animate-zoom-in">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 animate-fade-in">
+      <Card className="w-full max-w-md text-center transition-transform duration-300 hover:-translate-y-1">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary flex items-center justify-center gap-2">
             <Zap className="h-8 w-8" />
@@ -31,7 +31,11 @@ const HomePage = () => {
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button asChild size="lg">
+          <Button
+            asChild
+            size="lg"
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
+          >
             <Link to="/setup">Start Your Adventure!</Link>
           </Button>
         </CardFooter>

@@ -121,7 +121,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto transition-transform duration-300 hover:-translate-y-1">
       <CardHeader>
         <CardTitle className="text-primary">Hack-a-Lot</CardTitle>
         <CardDescription>
@@ -147,12 +147,17 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
           <Button
             onClick={drawNumber}
             disabled={availableNumbers.length === 0 || isShuffling}
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
           >
             {isShuffling ? "Shuffling..." : "Start shuffling"}
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" disabled={isShuffling}>
+              <Button
+                variant="outline"
+                disabled={isShuffling}
+                className="transition-transform duration-200 hover:scale-105 active:scale-95"
+              >
                 Reset
               </Button>
             </AlertDialogTrigger>
@@ -168,7 +173,10 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={reset}>
+                <AlertDialogAction
+                  onClick={reset}
+                  className="transition-transform duration-200 hover:scale-105 active:scale-95"
+                >
                   Reset Session
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -180,6 +188,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
             variant="link"
             onClick={goBackToSetup}
             disabled={isShuffling}
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
           >
             Go Back
           </Button>
@@ -187,6 +196,7 @@ export const HackALot = ({ initialMaxNumber }: HackALotProps) => {
             variant="link"
             onClick={() => navigate("/")}
             disabled={isShuffling}
+            className="transition-transform duration-200 hover:scale-105 active:scale-95"
           >
             Go to Home
           </Button>
